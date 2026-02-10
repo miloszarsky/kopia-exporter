@@ -23,6 +23,9 @@ services:
 
       # Kopia cache directory (optional, improves performance for repeated queries)
       - ${KOPIA_CACHE_DIR:-~/.cache/kopia}:/root/.cache/kopia
+
+      # Rclone config (required for rclone-based kopia repositories)
+      - ${RCLONE_CONFIG_DIR:-~/.config/rclone}:/root/.config/rclone:ro
     environment:
       # Override the default port (optional)
       - EXPORTER_PORT=${EXPORTER_PORT:-9884}
