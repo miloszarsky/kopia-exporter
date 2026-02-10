@@ -120,12 +120,12 @@ def main(ctx, conf):
 
 
 @main.command()
-@click.option("--port", default=9884, help="The port to listen on.")
+@click.option("--port", default=9884, envvar="EXPORTER_PORT", help="The port to listen on.")
 @click.option(
-    "--config-file", default="", help="The kopia config file to use.", type=click.Path()
+    "--config-file", default="", envvar="KOPIA_CONFIG_FILE", help="The kopia config file to use.", type=click.Path()
 )
 @click.option(
-    "--refresh-interval", default=600, help="Refresh interval in seconds.", type=int
+    "--refresh-interval", default=600, envvar="REFRESH_INTERVAL", help="Refresh interval in seconds.", type=int
 )
 def server(port, config_file, refresh_interval):
     """Run in server mode.
