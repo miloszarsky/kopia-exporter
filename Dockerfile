@@ -1,0 +1,43 @@
+# Stage 1: Build
+FROM python:3.12-slim AS builder
+
+WORKDIR /build
+
+COPY pyproject.toml README.md ./
+COPY src/ ./src/
+
+RUN pip install --no-cache-dir build && \
+    python -m build --wheel --outdir /build/dist
+
+# Stage 2: Runtime
+FROM python:3.12-slim
+
+LABEL maintainer="kopia-exporter"
+LABEL description="Kopia Prometheus Exporter"
+
+# Install kopia from official repository so the exporter can shell out to it
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl gnupg ca-certificates && \
+    curl -s https://kopia.io/signing-key | gpg --dearmor -o /usr/share/keyrings/kopia-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" > /etc/apt/sources.list.d/kopia.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends kopia && \
+    apt-get purge -y curl gnupg && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install the exporter wheel from the build stage
+COPY --from=builder /build/dist/*.whl /tmp/
+RUN pip install --no-cache-dir /tmp/*.whl && \
+    rm -f /tmp/*.whl
+
+# Create a non-root user
+RUN useradd --create-home --shell /bin/bash exporter
+USER exporter
+WORKDIR /home/exporter
+
+# Default metrics port
+EXPOSE 9884
+
+ENTRYPOINT ["kopia-exporter"]
+CMD ["server", "--port", "9884"]

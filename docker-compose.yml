@@ -1,0 +1,32 @@
+services:
+  kopia-exporter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kopia-exporter
+    restart: unless-stopped
+    ports:
+      - "9884:9884"
+    volumes:
+      # Mount the host's kopia repository config so the exporter can query snapshots.
+      # Adjust the source path to match your host's kopia config location.
+      # Common locations:
+      #   Linux:   ~/.config/kopia
+      #   macOS:   ~/Library/Application Support/kopia
+      - ${KOPIA_CONFIG_DIR:-~/.config/kopia}:/home/exporter/.config/kopia:ro
+
+      # If your kopia repository is on a local filesystem (not cloud/remote),
+      # you also need to mount the repository path. Uncomment and adjust:
+      # - /path/to/kopia/repo:/path/to/kopia/repo:ro
+
+      # Kopia cache directory (optional, improves performance for repeated queries)
+      - ${KOPIA_CACHE_DIR:-~/.cache/kopia}:/home/exporter/.cache/kopia
+    environment:
+      # Override the default port (optional)
+      - EXPORTER_PORT=${EXPORTER_PORT:-9884}
+      # Kopia config file path inside the container (matches the volume mount)
+      - KOPIA_CONFIG_FILE=${KOPIA_CONFIG_FILE:-}
+      # Refresh interval in seconds (optional, default: 600)
+      - REFRESH_INTERVAL=${REFRESH_INTERVAL:-600}
+    # Override CMD if you need custom args. Examples:
+    # command: ["server", "--port", "9884", "--config-file", "/home/exporter/.config/kopia/repository.config", "--refresh-interval", "300"]

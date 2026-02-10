@@ -1,0 +1,13 @@
+# Systemd unit file for kopia exporter
+
+[Unit]
+Description=Kopia Exporter Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/kopia-exporter server --port 9884 --config-file=/root/.config/kopia/repository.config
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target
