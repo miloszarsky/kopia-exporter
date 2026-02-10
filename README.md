@@ -72,7 +72,39 @@ docker run -d --name kopia-exporter \
   kopia-exporter
 ```
 
-### Option 2: Using pipx
+### Option 2: .deb Package (Debian/Ubuntu)
+
+Pre-built `.deb` packages are available on the [Releases](https://github.com/miloszarsky/kopia-exporter/releases) page. Supported on Debian 12/13 and Ubuntu 22.04/24.04.
+
+1. Download the `.deb` from the latest release:
+   ```
+   curl -LO https://github.com/miloszarsky/kopia-exporter/releases/latest/download/kopia-exporter_<version>_all.deb
+   ```
+
+2. Install:
+   ```
+   sudo dpkg -i kopia-exporter_*_all.deb
+   ```
+
+3. (Optional) Configure the exporter by creating `/etc/default/kopia-exporter`:
+   ```
+   # Example: pass a custom config file and port
+   KOPIA_EXPORTER_ARGS="--config-file /root/.config/kopia/repository.config --port 9884"
+   ```
+
+4. Start the service:
+   ```
+   sudo systemctl start kopia-exporter
+   ```
+
+The package installs a systemd service that is enabled on install. The exporter binary is available at `/usr/local/bin/kopia-exporter`.
+
+To uninstall:
+```
+sudo dpkg -r kopia-exporter
+```
+
+### Option 3: Using pipx
 
 1. Ensure you have pipx installed on your system. If not, you can install it using pip:
    ```
@@ -87,7 +119,7 @@ docker run -d --name kopia-exporter \
 
 This method installs kopia-exporter in an isolated environment and makes it available globally.
 
-### Option 3: Manual Installation
+### Option 4: Manual Installation
 
 1. Ensure you have Python 3.7+ installed on your system.
 

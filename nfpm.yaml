@@ -1,0 +1,29 @@
+name: kopia-exporter
+arch: all
+platform: linux
+version: ${VERSION}
+maintainer: miloszarsky
+description: Kopia Exporter for Prometheus
+vendor: miloszarsky
+homepage: https://github.com/miloszarsky/kopia-exporter
+license: MIT
+
+depends:
+  - python3 (>= 3.10)
+  - python3-venv
+
+contents:
+  - src: dist/kopia_exporter-*.whl
+    dst: /opt/kopia-exporter/
+    file_info:
+      mode: 0644
+
+  - src: packaging/kopia-exporter.service
+    dst: /lib/systemd/system/kopia-exporter.service
+    file_info:
+      mode: 0644
+
+scripts:
+  postinstall: packaging/postinst.sh
+  preremove: packaging/prerm.sh
+  postremove: packaging/postrm.sh

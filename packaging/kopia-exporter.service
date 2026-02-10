@@ -1,0 +1,13 @@
+[Unit]
+Description=Kopia Exporter for Prometheus
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/kopia-exporter/venv/bin/kopia-exporter server --port 9884
+Restart=on-failure
+RestartSec=1min
+EnvironmentFile=-/etc/default/kopia-exporter
+
+[Install]
+WantedBy=multi-user.target
