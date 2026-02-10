@@ -10,11 +10,11 @@ kopia-exporter is a tool that exports metrics from Kopia backups to Prometheus. 
 
 ### Option 1: Docker (Recommended)
 
-The easiest way to run kopia-exporter is with Docker. The container includes the kopia binary and mounts your host's kopia configuration to query snapshot data.
+The easiest way to run kopia-exporter is with Docker. Pre-built images are available on GitHub Container Registry.
 
-1. Clone the repository:
+1. Create a `docker-compose.yml` (or clone the repository for the included one):
    ```
-   git clone https://github.com/alvistar/kopia-exporter.git
+   git clone https://github.com/miloszarsky/kopia-exporter.git
    cd kopia-exporter
    ```
 
@@ -23,7 +23,12 @@ The easiest way to run kopia-exporter is with Docker. The container includes the
    docker compose up -d
    ```
 
-This will build the image, mount your host's kopia config from `~/.config/kopia`, and expose metrics on port `9884`.
+This will pull the image from `ghcr.io/miloszarsky/kopia-exporter`, mount your host's kopia config from `~/.config/kopia`, and expose metrics on port `9884`.
+
+You can also pull the image directly:
+```
+docker pull ghcr.io/miloszarsky/kopia-exporter:latest
+```
 
 #### Custom kopia config location
 

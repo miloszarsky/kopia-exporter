@@ -1,8 +1,10 @@
 services:
   kopia-exporter:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/miloszarsky/kopia-exporter:latest
+    # To build locally instead of pulling from ghcr.io, comment out 'image' and uncomment:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     container_name: kopia-exporter
     restart: unless-stopped
     ports:
