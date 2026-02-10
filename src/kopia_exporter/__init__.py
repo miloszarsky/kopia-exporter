@@ -140,8 +140,9 @@ def server(port, config_file, refresh_interval):
 
     while True:
         data = refresh_data(config_file)
-        for entry in data:
-            metrics.update_metrics(entry)
+        if data:
+            for entry in data:
+                metrics.update_metrics(entry)
 
         # Sleep for the specified refresh interval before the next update
         time.sleep(refresh_interval)

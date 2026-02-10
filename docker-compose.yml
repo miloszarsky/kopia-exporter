@@ -15,14 +15,14 @@ services:
       # Common locations:
       #   Linux:   ~/.config/kopia
       #   macOS:   ~/Library/Application Support/kopia
-      - ${KOPIA_CONFIG_DIR:-~/.config/kopia}:/home/exporter/.config/kopia:ro
+      - ${KOPIA_CONFIG_DIR:-~/.config/kopia}:/root/.config/kopia:ro
 
       # If your kopia repository is on a local filesystem (not cloud/remote),
       # you also need to mount the repository path. Uncomment and adjust:
       # - /path/to/kopia/repo:/path/to/kopia/repo:ro
 
       # Kopia cache directory (optional, improves performance for repeated queries)
-      - ${KOPIA_CACHE_DIR:-~/.cache/kopia}:/home/exporter/.cache/kopia
+      - ${KOPIA_CACHE_DIR:-~/.cache/kopia}:/root/.cache/kopia
     environment:
       # Override the default port (optional)
       - EXPORTER_PORT=${EXPORTER_PORT:-9884}
@@ -31,4 +31,4 @@ services:
       # Refresh interval in seconds (optional, default: 600)
       - REFRESH_INTERVAL=${REFRESH_INTERVAL:-600}
     # Override CMD if you need custom args. Examples:
-    # command: ["server", "--port", "9884", "--config-file", "/home/exporter/.config/kopia/repository.config", "--refresh-interval", "300"]
+    # command: ["server", "--port", "9884", "--config-file", "/root/.config/kopia/repository.config", "--refresh-interval", "300"]

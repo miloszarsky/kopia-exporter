@@ -31,11 +31,6 @@ COPY --from=builder /build/dist/*.whl /tmp/
 RUN pip install --no-cache-dir /tmp/*.whl && \
     rm -f /tmp/*.whl
 
-# Create a non-root user
-RUN useradd --create-home --shell /bin/bash exporter
-USER exporter
-WORKDIR /home/exporter
-
 # Default metrics port
 EXPOSE 9884
 

@@ -41,7 +41,7 @@ KOPIA_CONFIG_DIR=/root/.config/kopia docker compose up -d
 
 Override the default command in `docker-compose.yml`:
 ```yaml
-command: ["server", "--port", "9884", "--config-file", "/home/exporter/.config/kopia/repository.config", "--refresh-interval", "300"]
+command: ["server", "--port", "9884", "--config-file", "/root/.config/kopia/repository.config", "--refresh-interval", "300"]
 ```
 
 #### Local filesystem repositories
@@ -67,8 +67,8 @@ volumes:
 docker build -t kopia-exporter .
 docker run -d --name kopia-exporter \
   -p 9884:9884 \
-  -v ~/.config/kopia:/home/exporter/.config/kopia:ro \
-  -v ~/.cache/kopia:/home/exporter/.cache/kopia \
+  -v ~/.config/kopia:/root/.config/kopia:ro \
+  -v ~/.cache/kopia:/root/.cache/kopia \
   kopia-exporter
 ```
 
