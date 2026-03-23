@@ -13,8 +13,8 @@ depends:
   - python3-venv
 
 contents:
-  - src: dist/kopia_exporter.whl
-    dst: /opt/kopia-exporter/kopia_exporter.whl
+  - src: dist/kopia_exporter-*.whl
+    dst: /opt/kopia-exporter/
     file_info:
       mode: 0644
 

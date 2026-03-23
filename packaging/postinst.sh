@@ -9,7 +9,7 @@ SYMLINK=/usr/local/bin/kopia-exporter
 python3 -m venv "${VENV_DIR}"
 
 # Install the shipped wheel
-"${VENV_DIR}/bin/pip" install "${INSTALL_DIR}/kopia_exporter.whl"
+"${VENV_DIR}/bin/pip" install "${INSTALL_DIR}"/kopia_exporter-*.whl
 
 # Create symlink
 ln -sf "${VENV_DIR}/bin/kopia-exporter" "${SYMLINK}"
