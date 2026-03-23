@@ -59,6 +59,8 @@ jobs:
         run: |
           pip install build
           python -m build --wheel --outdir dist/
+          # Rename to a fixed name so nfpm and postinst can reference it without globs
+          mv dist/kopia_exporter-*.whl dist/kopia_exporter.whl
 
       - name: Install nfpm
         run: |
